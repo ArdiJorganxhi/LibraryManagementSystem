@@ -12,7 +12,7 @@ public class BookMapper {
     public Book registerBook(RegisterBookRequest request){
         return Book.builder()
                 .name(request.getName())
-                .author(request.getAuthor())
+                .author(request.getAuthor().toUpperCase())
                 .page(request.getPage())
                 .build();
     }

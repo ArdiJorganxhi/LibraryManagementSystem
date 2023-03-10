@@ -32,4 +32,8 @@ public class BookService {
         bookRepository.delete(book);
     }
 
+    public List<String> getBooksByAuthor(String author){
+        return bookRepository.findByAuthor(author.toUpperCase());
+    }
+
 }
