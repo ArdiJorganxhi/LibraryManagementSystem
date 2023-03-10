@@ -31,4 +31,8 @@ public class UserService {
     public UserDto getUserById(Long id){
         return userMapper.toDto(userRepository.findById(id).orElseThrow());
     }
+    public void deleteUser(Long id){
+        User user = userRepository.findById(id).orElseThrow();
+        userRepository.delete(user);
+    }
 }

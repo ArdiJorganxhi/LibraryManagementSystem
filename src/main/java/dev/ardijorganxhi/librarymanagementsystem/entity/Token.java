@@ -11,10 +11,11 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Builder
+@Table(name = "tokens")
 public class Token {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Column(unique = true)
