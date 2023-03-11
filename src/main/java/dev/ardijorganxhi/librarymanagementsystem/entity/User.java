@@ -35,6 +35,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    private boolean isSubscribed = false;
+
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
 

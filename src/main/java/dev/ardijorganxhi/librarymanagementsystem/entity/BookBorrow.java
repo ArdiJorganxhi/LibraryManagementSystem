@@ -1,6 +1,7 @@
 package dev.ardijorganxhi.librarymanagementsystem.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.ardijorganxhi.librarymanagementsystem.embedded.BookId;
 import lombok.*;
 
@@ -26,5 +27,6 @@ public class BookBorrow {
     private LocalDate returnDate;
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 }

@@ -35,5 +35,8 @@ public class BookService {
     public List<String> getBooksByAuthor(String author){
         return bookRepository.findByAuthor(author.toUpperCase());
     }
+    public List<String> getAuthors(){
+        return bookRepository.getAllAuthors();
+    }
 
 }

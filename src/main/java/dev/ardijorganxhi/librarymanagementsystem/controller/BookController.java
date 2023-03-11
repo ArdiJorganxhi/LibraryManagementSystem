@@ -32,7 +32,11 @@ public class BookController {
     public void deleteBook(@PathVariable Long id){
         bookService.deleteBook(id);
     }
-    @GetMapping("/author/{author}")
+    @GetMapping("/authors")
+    public ResponseEntity<List<String>> getAuthors(){
+        return ResponseEntity.ok(bookService.getAuthors());
+    }
+    @GetMapping("/authors/{author}")
     public ResponseEntity<List<String>> getBooksByAuthor(@PathVariable String author){
         return ResponseEntity.ok(bookService.getBooksByAuthor(author));
     }
