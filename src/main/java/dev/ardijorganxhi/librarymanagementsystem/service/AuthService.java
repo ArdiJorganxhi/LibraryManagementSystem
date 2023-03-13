@@ -1,8 +1,6 @@
 package dev.ardijorganxhi.librarymanagementsystem.service;
 
-import dev.ardijorganxhi.librarymanagementsystem.entity.Token;
 import dev.ardijorganxhi.librarymanagementsystem.entity.User;
-import dev.ardijorganxhi.librarymanagementsystem.mapper.TokenMapper;
 import dev.ardijorganxhi.librarymanagementsystem.mapper.UserMapper;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.LoginRequest;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.RegisterRequest;
@@ -13,8 +11,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -23,7 +19,6 @@ public class AuthService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
-    private final TokenMapper tokenMapper;
 
 
     public User register(RegisterRequest request){
@@ -42,7 +37,6 @@ public class AuthService {
         }
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         String jwtToken = tokenService.generateToken(user);
-        tokenMapper.saveUserToken(user, jwtToken);
         return jwtToken;
     }
 }

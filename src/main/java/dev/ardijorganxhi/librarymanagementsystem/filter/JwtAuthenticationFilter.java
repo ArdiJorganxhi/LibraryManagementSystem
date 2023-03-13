@@ -1,6 +1,5 @@
 package dev.ardijorganxhi.librarymanagementsystem.filter;
 
-import dev.ardijorganxhi.librarymanagementsystem.repository.TokenRepository;
 import dev.ardijorganxhi.librarymanagementsystem.service.TokenService;
 import dev.ardijorganxhi.librarymanagementsystem.service.UserService;
 import lombok.NonNull;
@@ -27,7 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserService userService;
     private final UserDetailsService userDetailsService;
-    private final TokenRepository tokenRepository;
+
 
     @Override
     protected void doFilterInternal(
@@ -46,10 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         userEmail = tokenService.extractUsername(jwt);
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-            var isTokenValid = tokenRepository.findByToken(jwt)
-                    .map(t -> !t.isExpired() && !t.isRevoked())
-                    .orElse(false);
-            if (tokenService.isTokenValid(jwt, userDetails) && isTokenValid) {
+            if (tokenService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,

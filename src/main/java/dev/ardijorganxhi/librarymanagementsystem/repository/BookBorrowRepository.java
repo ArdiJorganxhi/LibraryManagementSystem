@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface BookBorrowRepository extends JpaRepository<BookBorrow, Long> {
 
     BookBorrow findByBookIdAndUserId(Long bookId, Long userId);
+    Long countByUserId(Long userId);
 }

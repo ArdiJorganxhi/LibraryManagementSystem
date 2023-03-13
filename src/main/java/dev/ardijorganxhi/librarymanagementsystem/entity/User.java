@@ -37,8 +37,6 @@ public class User implements UserDetails {
 
     private boolean isSubscribed = false;
 
-    @OneToMany(mappedBy = "user")
-    private List<Token> tokens;
 
     @OneToMany(mappedBy = "user")
     private List<BookBorrow> books = new ArrayList<>();
