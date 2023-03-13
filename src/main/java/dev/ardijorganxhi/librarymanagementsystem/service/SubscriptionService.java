@@ -34,10 +34,10 @@ public class SubscriptionService {
     }
 
     public void deleteSubscription(Long id) throws Exception{
-        User user = userRepository.findById(id).orElseThrow(() -> new Exception("User not found!"));
         Subscription subscription = subscriptionRepository.findByUserId(id).orElseThrow(() -> new Exception("Subscription not found!"));
+        subscription.getUser().setSubscribed(false);
         subscriptionRepository.delete(subscription);
-        user.setSubscribed(false);
+
     }
 
 
