@@ -14,19 +14,31 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Builder
-@IdClass(BookId.class)
+
 public class BookBorrow {
 
-    @Id
-    private long bookId;
+
+    @EmbeddedId
+    private BookId id = new BookId();
+
+    @ManyToOne
+    @MapsId("bookId")
+    @JoinColumn(name = "book_id")
+    @JsonIgnore
+    private Book book;
+
+    @ManyToOne
+    @MapsId("userId")
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
     @Column(nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate borrowDate;
     @Column(nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate returnDate;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonIgnore
-    private User user;
+
+
+
 }

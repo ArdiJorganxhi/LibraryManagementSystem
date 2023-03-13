@@ -4,6 +4,8 @@ package dev.ardijorganxhi.librarymanagementsystem.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -23,4 +25,10 @@ public class Book {
     private String author;
     @Column(nullable = false)
     private int page;
+
+    @Column(nullable = false)
+    private int stock;
+
+    @OneToMany(mappedBy = "book")
+    private List<BookBorrow> bookBorrows = new ArrayList<>();
 }

@@ -41,6 +41,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<BookBorrow> books = new ArrayList<>();
 
+    @OneToOne(mappedBy = "user")
+    private Subscription subscription;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
