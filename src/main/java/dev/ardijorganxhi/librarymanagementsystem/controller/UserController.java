@@ -7,6 +7,7 @@ import dev.ardijorganxhi.librarymanagementsystem.model.dto.UserDto;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.BookBorrowRequest;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.RegisterSubscriptionRequest;
 import dev.ardijorganxhi.librarymanagementsystem.service.BookBorrowService;
+import dev.ardijorganxhi.librarymanagementsystem.service.SubscriptionService;
 import dev.ardijorganxhi.librarymanagementsystem.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class UserController {
 
     private final UserService userService;
     private final BookBorrowService bookBorrowService;
+    private final SubscriptionService subscriptionService;
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getUsers(){
@@ -45,15 +47,15 @@ public class UserController {
     }
     @PostMapping("/{id}/subscribe-monthly")
     public ResponseEntity<Subscription> registerMonthly(@PathVariable Long id, @RequestBody RegisterSubscriptionRequest request) throws Exception {
-        return ResponseEntity.ok(userService.registerMonthly(id, request));
+        return ResponseEntity.ok(subscriptionService.registerMonthly(id, request));
     }
     @PostMapping("/{id}/subscribe-yearly")
     public ResponseEntity<Subscription> registerYearly(@PathVariable Long id, @RequestBody RegisterSubscriptionRequest request) throws Exception {
-        return ResponseEntity.ok(userService.registerYearly(id, request));
+        return ResponseEntity.ok(subscriptionService.registerYearly(id, request));
     }
     @DeleteMapping("/{id}/unsubscribe")
     public void deleteSubscription(@PathVariable Long id) throws Exception{
-        userService.deleteSubscription(id);
+        subscriptionService.deleteSubscription(id);
     }
 
 
