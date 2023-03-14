@@ -2,7 +2,7 @@ package dev.ardijorganxhi.librarymanagementsystem.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dev.ardijorganxhi.librarymanagementsystem.embedded.BookId;
+import dev.ardijorganxhi.librarymanagementsystem.model.embedded.BookUserId;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,7 +19,7 @@ public class BookBorrow {
 
 
     @EmbeddedId
-    private BookId id = new BookId();
+    private BookUserId id = new BookUserId();
 
     @ManyToOne
     @MapsId("bookId")

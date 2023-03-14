@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class BookBorrowMapper {
 
     public BookBorrow borrowBook(User user, Book book, BookBorrowRequest request){
-        return BookBorrow.builder()
-                .book(book)
-                .borrowDate(request.getBorrowDate())
-                .returnDate(request.getReturnDate())
-                .user(user)
-                .build();
+        BookBorrow bookBorrow = new BookBorrow();
+        bookBorrow.setBook(book);
+        bookBorrow.setUser(user);
+        bookBorrow.setBorrowDate(request.getBorrowDate());
+        bookBorrow.setReturnDate(request.getReturnDate());
+        return bookBorrow;
     }
 }

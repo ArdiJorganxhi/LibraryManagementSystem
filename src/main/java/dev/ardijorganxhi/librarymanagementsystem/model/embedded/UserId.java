@@ -1,4 +1,4 @@
-package dev.ardijorganxhi.librarymanagementsystem.embedded;
+package dev.ardijorganxhi.librarymanagementsystem.model.embedded;
 
 import lombok.Data;
 import lombok.Getter;

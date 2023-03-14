@@ -23,8 +23,10 @@ public class BookBorrowService {
         User user = userRepository.findById(userId).orElseThrow(() -> new Exception("User not found!"));
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new Exception("Book not found!"));
         BookBorrow bookBorrow = bookBorrowMapper.borrowBook(user, book, request);
+        user.getBooks().add(bookBorrow);
         bookBorrowRepository.save(bookBorrow);
         return bookBorrow;
+
     }
     public void returnBook(Long bookId, Long userId){
         BookBorrow bookBorrow = bookBorrowRepository.findByBookIdAndUserId(bookId, userId);

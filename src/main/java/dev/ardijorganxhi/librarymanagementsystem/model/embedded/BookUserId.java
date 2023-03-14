@@ -1,4 +1,4 @@
-package dev.ardijorganxhi.librarymanagementsystem.embedded;
+package dev.ardijorganxhi.librarymanagementsystem.model.embedded;
 
 
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Embeddable
 @Getter
 @Setter
-public class BookId implements Serializable {
+public class BookUserId implements Serializable {
 
     private long bookId;
     private long userId;

@@ -11,20 +11,23 @@ public class SubscriptionMapper {
 
 
     public Subscription registerSubscriptionMonthly(User user, RegisterSubscriptionRequest request){
-        return Subscription.builder()
-                .user(user)
-                .subscriptionType(SubscriptionType.MONTHLY)
-                .startDate(request.getStartDate())
-                .endDate(request.getStartDate().plusDays(30))
-                .build();
+
+        Subscription subscription = new Subscription();
+        subscription.setUser(user);
+        subscription.setSubscriptionType(SubscriptionType.MONTHLY);
+        subscription.setStartDate(request.getStartDate());
+        subscription.setEndDate(request.getStartDate().plusDays(30));
+        user.setSubscription(subscription);
+        return subscription;
     }
 
     public Subscription registerSubscriptionYearly(User user, RegisterSubscriptionRequest request){
-        return Subscription.builder()
-                .user(user)
-                .subscriptionType(SubscriptionType.YEARLY)
-                .startDate(request.getStartDate())
-                .endDate(request.getStartDate().plusDays(365))
-                .build();
+        Subscription subscription = new Subscription();
+        subscription.setUser(user);
+        subscription.setSubscriptionType(SubscriptionType.YEARLY);
+        subscription.setStartDate(request.getStartDate());
+        subscription.setEndDate(request.getStartDate().plusDays(365));
+        user.setSubscription(subscription);
+        return subscription;
     }
 }

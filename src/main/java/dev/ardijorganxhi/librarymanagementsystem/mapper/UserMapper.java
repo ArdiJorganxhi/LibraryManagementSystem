@@ -1,5 +1,6 @@
 package dev.ardijorganxhi.librarymanagementsystem.mapper;
 
+import dev.ardijorganxhi.librarymanagementsystem.core.ValidationUtils;
 import dev.ardijorganxhi.librarymanagementsystem.entity.User;
 import dev.ardijorganxhi.librarymanagementsystem.model.dto.UserDto;
 import dev.ardijorganxhi.librarymanagementsystem.model.enums.Role;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class UserMapper {
 
     private final PasswordEncoder passwordEncoder;
+    private final ValidationUtils validationUtils;
 
     public UserDto toDto(User user){
 
@@ -30,7 +32,7 @@ public class UserMapper {
         return User.builder()
                 .name(request.getName())
                 .surname(request.getSurname())
-                .email(request.getEmail())
+                .email(validationUtils.validateEmail(request.getEmail()))
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();

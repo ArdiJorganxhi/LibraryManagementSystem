@@ -2,10 +2,9 @@ package dev.ardijorganxhi.librarymanagementsystem.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dev.ardijorganxhi.librarymanagementsystem.embedded.UserId;
+import dev.ardijorganxhi.librarymanagementsystem.model.embedded.UserId;
 import dev.ardijorganxhi.librarymanagementsystem.model.enums.SubscriptionType;
 import lombok.*;
-import org.springframework.context.annotation.EnableMBeanExport;
 
 import javax.persistence.*;
 import java.time.LocalDate;
