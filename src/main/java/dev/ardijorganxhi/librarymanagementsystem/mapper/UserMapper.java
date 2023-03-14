@@ -28,7 +28,7 @@ public class UserMapper {
                 .build();
     }
 
-    public User register(RegisterRequest request){
+    public User register(RegisterRequest request) throws Exception{
         return User.builder()
                 .name(request.getName())
                 .surname(request.getSurname())

@@ -21,7 +21,7 @@ public class AuthService {
     private final TokenService tokenService;
 
 
-    public User register(RegisterRequest request){
+    public User register(RegisterRequest request) throws Exception{
 
         User user = userMapper.register(request);
         userRepository.save(user);
