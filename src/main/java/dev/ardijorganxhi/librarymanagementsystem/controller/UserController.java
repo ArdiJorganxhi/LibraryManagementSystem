@@ -3,6 +3,8 @@ package dev.ardijorganxhi.librarymanagementsystem.controller;
 
 import dev.ardijorganxhi.librarymanagementsystem.entity.BookBorrow;
 import dev.ardijorganxhi.librarymanagementsystem.entity.Subscription;
+import dev.ardijorganxhi.librarymanagementsystem.model.dto.BookBorrowDto;
+import dev.ardijorganxhi.librarymanagementsystem.model.dto.SubscriptionDto;
 import dev.ardijorganxhi.librarymanagementsystem.model.dto.UserDto;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.BookBorrowRequest;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.RegisterSubscriptionRequest;
@@ -38,7 +40,7 @@ public class UserController {
         userService.deleteUser(id);
     }
     @PostMapping("/{userId}/book/{bookId}")
-    public ResponseEntity<BookBorrow> borrowBook(@PathVariable Long userId, @PathVariable Long bookId, @RequestBody BookBorrowRequest request) throws Exception{
+    public ResponseEntity<BookBorrowDto> borrowBook(@PathVariable Long userId, @PathVariable Long bookId, @RequestBody BookBorrowRequest request) throws Exception{
         return ResponseEntity.ok(bookBorrowService.borrowBook(bookId, userId, request));
     }
     @DeleteMapping("/{userId}/book/{bookId}")
@@ -46,11 +48,11 @@ public class UserController {
         bookBorrowService.returnBook(bookId, userId);
     }
     @PostMapping("/{id}/subscribe-monthly")
-    public ResponseEntity<Subscription> registerMonthly(@PathVariable Long id, @RequestBody RegisterSubscriptionRequest request) throws Exception {
+    public ResponseEntity<SubscriptionDto> registerMonthly(@PathVariable Long id, @RequestBody RegisterSubscriptionRequest request) throws Exception {
         return ResponseEntity.ok(subscriptionService.registerMonthly(id, request));
     }
     @PostMapping("/{id}/subscribe-yearly")
-    public ResponseEntity<Subscription> registerYearly(@PathVariable Long id, @RequestBody RegisterSubscriptionRequest request) throws Exception {
+    public ResponseEntity<SubscriptionDto> registerYearly(@PathVariable Long id, @RequestBody RegisterSubscriptionRequest request) throws Exception {
         return ResponseEntity.ok(subscriptionService.registerYearly(id, request));
     }
     @DeleteMapping("/{id}/unsubscribe")

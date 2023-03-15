@@ -1,6 +1,6 @@
 package dev.ardijorganxhi.librarymanagementsystem.mapper;
 
-import dev.ardijorganxhi.librarymanagementsystem.core.ValidationUtils;
+import dev.ardijorganxhi.librarymanagementsystem.utils.ValidationUtils;
 import dev.ardijorganxhi.librarymanagementsystem.entity.User;
 import dev.ardijorganxhi.librarymanagementsystem.model.dto.UserDto;
 import dev.ardijorganxhi.librarymanagementsystem.model.enums.Role;

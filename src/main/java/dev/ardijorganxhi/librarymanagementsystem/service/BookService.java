@@ -2,6 +2,7 @@ package dev.ardijorganxhi.librarymanagementsystem.service;
 
 import dev.ardijorganxhi.librarymanagementsystem.entity.Book;
 import dev.ardijorganxhi.librarymanagementsystem.mapper.BookMapper;
+import dev.ardijorganxhi.librarymanagementsystem.model.dto.BookDto;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.RegisterBookRequest;
 import dev.ardijorganxhi.librarymanagementsystem.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +22,11 @@ public class BookService {
         bookRepository.save(book);
         return book;
     }
-    public List<Book> getBooks(){
-        return bookRepository.findAll();
+    public List<BookDto> getBooks(){
+        return bookMapper.listToDto(bookRepository.findAll());
     }
-    public Book getBookById(Long id){
-        return bookRepository.findById(id).orElseThrow();
+    public BookDto getBookById(Long id){
+        return bookMapper.toDto(bookRepository.findById(id).orElseThrow());
     }
     public void deleteBook(Long id){
         Book book = bookRepository.findById(id).orElseThrow();

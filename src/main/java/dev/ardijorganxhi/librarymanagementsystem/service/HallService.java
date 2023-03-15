@@ -2,6 +2,7 @@ package dev.ardijorganxhi.librarymanagementsystem.service;
 
 import dev.ardijorganxhi.librarymanagementsystem.entity.Hall;
 import dev.ardijorganxhi.librarymanagementsystem.mapper.HallMapper;
+import dev.ardijorganxhi.librarymanagementsystem.model.dto.HallDto;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.CreateHallRequest;
 import dev.ardijorganxhi.librarymanagementsystem.repository.HallRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,19 +23,21 @@ public class HallService {
         hallRepository.save(hall);
         return hall;
     }
-    public List<Hall> getHalls(){
-        return hallRepository.findAll();
+    public List<HallDto> getHalls(){
+        return hallMapper.listToDto(hallRepository.findAll());
     }
-    public Hall getHallById(Long id) throws Exception{
-        return hallRepository.findById(id).orElseThrow(() -> new Exception("Hall not found!"));
+    public HallDto getHallById(Long id) throws Exception{
+        return hallMapper.toDto(hallRepository.findById(id).orElseThrow(() -> new Exception("Hall not found!")));
     }
-    public void enteredHall(Long id) throws Exception{
-        Hall hall = getHallById(id);
+    public HallDto enteredHall(Long id) throws Exception{
+        Hall hall = hallRepository.findById(id).orElseThrow(() -> new Exception("Hall not found!"));
         hall.setEmptySeats(hall.getEmptySeats() + 1);
+        return hallMapper.toDto(hall);
     }
-    public void exitHall(Long id) throws Exception {
-        Hall hall = getHallById(id);
+    public HallDto exitHall(Long id) throws Exception {
+        Hall hall = hallRepository.findById(id).orElseThrow(() -> new Exception("Hall not found!"));
         hall.setEmptySeats(hall.getEmptySeats() - 1);
+        return hallMapper.toDto(hall);
     }
 
 }

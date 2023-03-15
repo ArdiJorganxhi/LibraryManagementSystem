@@ -1,6 +1,7 @@
 package dev.ardijorganxhi.librarymanagementsystem.controller;
 
 import dev.ardijorganxhi.librarymanagementsystem.entity.Book;
+import dev.ardijorganxhi.librarymanagementsystem.model.dto.BookDto;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.RegisterBookRequest;
 import dev.ardijorganxhi.librarymanagementsystem.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +22,11 @@ public class BookController {
         return ResponseEntity.ok(bookService.registerBook(request));
     }
     @GetMapping
-    public ResponseEntity<List<Book>> getBooks(){
+    public ResponseEntity<List<BookDto>> getBooks(){
         return ResponseEntity.ok(bookService.getBooks());
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable Long id){
+    public ResponseEntity<BookDto> getBookById(@PathVariable Long id){
         return ResponseEntity.ok(bookService.getBookById(id));
     }
     @DeleteMapping("/{id}")

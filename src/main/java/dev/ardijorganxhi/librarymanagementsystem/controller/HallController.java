@@ -1,6 +1,7 @@
 package dev.ardijorganxhi.librarymanagementsystem.controller;
 
 import dev.ardijorganxhi.librarymanagementsystem.entity.Hall;
+import dev.ardijorganxhi.librarymanagementsystem.model.dto.HallDto;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.CreateHallRequest;
 import dev.ardijorganxhi.librarymanagementsystem.service.HallService;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ public class HallController {
     private final HallService hallService;
 
     @GetMapping
-    public ResponseEntity<List<Hall>> getHalls(){
+    public ResponseEntity<List<HallDto>> getHalls(){
         return ResponseEntity.ok(hallService.getHalls());
     }
     @PostMapping
@@ -25,11 +26,11 @@ public class HallController {
         return ResponseEntity.ok(hallService.createHall(request));
     }
     @PatchMapping("/{id}/enter")
-    public void enterHall(@PathVariable Long id) throws Exception{
-        hallService.enteredHall(id);
+    public ResponseEntity<HallDto> enterHall(@PathVariable Long id) throws Exception{
+        return ResponseEntity.ok(hallService.enteredHall(id));
     }
     @PatchMapping("/{id}/exit")
-    public void exitHall(@PathVariable Long id) throws Exception {
-        hallService.exitHall(id);
+    public ResponseEntity<HallDto> exitHall(@PathVariable Long id) throws Exception {
+        return ResponseEntity.ok(hallService.exitHall(id));
     }
 }
