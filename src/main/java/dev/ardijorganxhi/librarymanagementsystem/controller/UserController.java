@@ -8,9 +8,13 @@ import dev.ardijorganxhi.librarymanagementsystem.model.dto.SubscriptionDto;
 import dev.ardijorganxhi.librarymanagementsystem.model.dto.UserDto;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.BookBorrowRequest;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.RegisterSubscriptionRequest;
+import dev.ardijorganxhi.librarymanagementsystem.model.response.BookBorrowResponse;
+import dev.ardijorganxhi.librarymanagementsystem.model.response.SubscriptionResponse;
+import dev.ardijorganxhi.librarymanagementsystem.model.response.UserResponse;
 import dev.ardijorganxhi.librarymanagementsystem.service.BookBorrowService;
 import dev.ardijorganxhi.librarymanagementsystem.service.SubscriptionService;
 import dev.ardijorganxhi.librarymanagementsystem.service.UserService;
+import dev.ardijorganxhi.librarymanagementsystem.utils.AppConstants;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +31,15 @@ public class UserController {
     private final BookBorrowService bookBorrowService;
     private final SubscriptionService subscriptionService;
 
+
     @GetMapping
-    public ResponseEntity<List<UserDto>> getUsers(){
-        return ResponseEntity.ok(userService.getUsers());
+    public UserResponse getAllUsers(
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+    ) {
+        return userService.findAllUsers(pageNo, pageSize, sortBy, sortDir);
     }
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id){
@@ -47,6 +57,18 @@ public class UserController {
     public void returnBook(@PathVariable Long userId, @PathVariable Long bookId){
         bookBorrowService.returnBook(bookId, userId);
     }
+    @GetMapping("/subscriptions")
+    public SubscriptionResponse getAllSubscriptions(
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+    ) {
+        return subscriptionService.getAllSubscriptions(pageNo, pageSize, sortBy, sortDir);
+    }
+
+
+
     @PostMapping("/{id}/subscribe-monthly")
     public ResponseEntity<SubscriptionDto> registerMonthly(@PathVariable Long id, @RequestBody RegisterSubscriptionRequest request) throws Exception {
         return ResponseEntity.ok(subscriptionService.registerMonthly(id, request));

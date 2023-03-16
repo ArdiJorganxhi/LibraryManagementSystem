@@ -6,9 +6,14 @@ import dev.ardijorganxhi.librarymanagementsystem.mapper.SubscriptionMapper;
 import dev.ardijorganxhi.librarymanagementsystem.mapper.UserMapper;
 import dev.ardijorganxhi.librarymanagementsystem.model.dto.UserDto;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.RegisterSubscriptionRequest;
+import dev.ardijorganxhi.librarymanagementsystem.model.response.UserResponse;
 import dev.ardijorganxhi.librarymanagementsystem.repository.SubscriptionRepository;
 import dev.ardijorganxhi.librarymanagementsystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.expression.ExpressionException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,6 +39,16 @@ public class UserService {
 
     public List<UserDto> getUsers(){
         return userMapper.listToDto(userRepository.findAll());
+    }
+
+    public UserResponse findAllUsers(int pageNo, int pageSize, String sortBy, String sortDir){
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        Page<User> users = userRepository.findAll(pageable);
+        UserResponse userResponse = userMapper.toResponse(users);
+        return userResponse;
+
     }
     public UserDto getUserById(Long id){
         return userMapper.toDto(userRepository.findById(id).orElseThrow());

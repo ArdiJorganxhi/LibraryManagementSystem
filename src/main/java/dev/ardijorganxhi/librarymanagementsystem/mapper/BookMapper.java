@@ -3,7 +3,9 @@ package dev.ardijorganxhi.librarymanagementsystem.mapper;
 import dev.ardijorganxhi.librarymanagementsystem.entity.Book;
 import dev.ardijorganxhi.librarymanagementsystem.model.dto.BookDto;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.RegisterBookRequest;
+import dev.ardijorganxhi.librarymanagementsystem.model.response.BookResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -31,5 +33,16 @@ public class BookMapper {
 
     public List<BookDto> listToDto(List<Book> books){
         return books.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+    public BookResponse toResponse(Page<Book> bookPage){
+        return BookResponse.builder()
+                .content(listToDto(bookPage.getContent()))
+                .pageNo(bookPage.getNumber())
+                .pageSize(bookPage.getSize())
+                .totalPages(bookPage.getTotalPages())
+                .totalElements(bookPage.getTotalElements())
+                .last(bookPage.isLast())
+                .build();
     }
 }

@@ -1,11 +1,15 @@
 package dev.ardijorganxhi.librarymanagementsystem.mapper;
 
+import dev.ardijorganxhi.librarymanagementsystem.entity.Book;
 import dev.ardijorganxhi.librarymanagementsystem.entity.Subscription;
 import dev.ardijorganxhi.librarymanagementsystem.entity.User;
 import dev.ardijorganxhi.librarymanagementsystem.model.dto.SubscriptionDto;
 import dev.ardijorganxhi.librarymanagementsystem.model.enums.SubscriptionType;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.RegisterSubscriptionRequest;
+import dev.ardijorganxhi.librarymanagementsystem.model.response.BookResponse;
+import dev.ardijorganxhi.librarymanagementsystem.model.response.SubscriptionResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -49,5 +53,16 @@ public class SubscriptionMapper {
     }
     public List<SubscriptionDto> listToDto(List<Subscription> subscriptions){
         return subscriptions.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+    public SubscriptionResponse toResponse(Page<Subscription> subscriptionPage){
+        return SubscriptionResponse.builder()
+                .content(listToDto(subscriptionPage.getContent()))
+                .pageNo(subscriptionPage.getNumber())
+                .pageSize(subscriptionPage.getSize())
+                .totalPages(subscriptionPage.getTotalPages())
+                .totalElements(subscriptionPage.getTotalElements())
+                .last(subscriptionPage.isLast())
+                .build();
     }
 }

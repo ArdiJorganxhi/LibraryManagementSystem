@@ -1,11 +1,13 @@
 package dev.ardijorganxhi.librarymanagementsystem.mapper;
 
+import dev.ardijorganxhi.librarymanagementsystem.model.response.UserResponse;
 import dev.ardijorganxhi.librarymanagementsystem.utils.ValidationUtils;
 import dev.ardijorganxhi.librarymanagementsystem.entity.User;
 import dev.ardijorganxhi.librarymanagementsystem.model.dto.UserDto;
 import dev.ardijorganxhi.librarymanagementsystem.model.enums.Role;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.RegisterRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +41,19 @@ public class UserMapper {
     }
     public List<UserDto> listToDto(List<User> users){
         return users.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+    public UserResponse toResponse(Page<User> userPage){
+
+        return UserResponse.builder()
+                .content(listToDto(userPage.getContent()))
+                .pageNo(userPage.getNumber())
+                .pageSize(userPage.getSize())
+                .totalPages(userPage.getTotalPages())
+                .totalElements(userPage.getTotalElements())
+                .last(userPage.isLast())
+                .build();
+
     }
 
 }
