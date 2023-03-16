@@ -32,7 +32,7 @@ public class UserMapper {
         return User.builder()
                 .name(request.getName())
                 .surname(request.getSurname())
-                .email(validationUtils.validateEmail(request.getEmail()))
+                .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();

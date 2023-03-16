@@ -7,6 +7,7 @@ import dev.ardijorganxhi.librarymanagementsystem.model.enums.SubscriptionType;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 @Entity
@@ -32,6 +33,7 @@ public class Subscription {
 
     @Column(nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @NotBlank(message = "A date must be set!")
     private LocalDate startDate;
 
     @Column(nullable = false)

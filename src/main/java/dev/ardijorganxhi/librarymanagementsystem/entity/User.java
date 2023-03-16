@@ -5,8 +5,9 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,12 +25,17 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(nullable = false)
+    @NotBlank(message = "Name should be filled!")
     private String name;
     @Column(nullable = false)
+    @NotBlank(message = "Surname should be filled!")
     private String surname;
     @Column(nullable = false, unique = true)
+    @NotBlank(message = "Email should be filled!")
+    @Email(message = "It must be a valid email format!")
     private String email;
     @Column(nullable = false)
+    @NotBlank(message = "Password should be filled!")
     private String password;
 
     @Enumerated(EnumType.STRING)

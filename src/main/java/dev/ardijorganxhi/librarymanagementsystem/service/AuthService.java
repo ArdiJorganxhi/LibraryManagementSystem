@@ -21,11 +21,10 @@ public class AuthService {
     private final TokenService tokenService;
 
 
-    public User register(RegisterRequest request) throws Exception{
+    public void register(RegisterRequest request) throws Exception{
 
         User user = userMapper.register(request);
         userRepository.save(user);
-        return user;
     }
 
     public String login(LoginRequest request) throws Exception {

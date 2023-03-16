@@ -21,8 +21,8 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterRequest request) throws Exception{
-        return ResponseEntity.ok(authService.register(request));
+    public void register(@RequestBody RegisterRequest request) throws Exception{
+        authService.register(request);
     }
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest request) throws Exception{
