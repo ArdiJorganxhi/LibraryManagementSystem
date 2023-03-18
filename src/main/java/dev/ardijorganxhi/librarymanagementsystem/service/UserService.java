@@ -46,8 +46,8 @@ public class UserService {
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         Page<User> users = userRepository.findAll(pageable);
-        UserResponse userResponse = userMapper.toResponse(users);
-        return userResponse;
+
+        return userMapper.toResponse(users);
 
     }
     public UserDto getUserById(Long id){

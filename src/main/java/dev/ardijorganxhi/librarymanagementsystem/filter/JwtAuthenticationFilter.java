@@ -1,11 +1,13 @@
 package dev.ardijorganxhi.librarymanagementsystem.filter;
 
 import dev.ardijorganxhi.librarymanagementsystem.entity.User;
+import dev.ardijorganxhi.librarymanagementsystem.exception.AuthenticationFailedException;
 import dev.ardijorganxhi.librarymanagementsystem.service.TokenService;
 import dev.ardijorganxhi.librarymanagementsystem.service.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.MDC;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,15 +35,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
     @Override
-    protected void doFilterInternal(
-            @NonNull HttpServletRequest request,
-            @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain
-    ) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -60,6 +58,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
                 MDC.put(X_USER_ID, String.valueOf(userDetails.getId()));
+
+            } else {
+                throw new AuthenticationFailedException(HttpStatus.UNAUTHORIZED);
 
             }
         }

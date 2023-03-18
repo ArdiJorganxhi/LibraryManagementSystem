@@ -1,8 +1,10 @@
 package dev.ardijorganxhi.librarymanagementsystem.service;
 
 import dev.ardijorganxhi.librarymanagementsystem.entity.Book;
+import dev.ardijorganxhi.librarymanagementsystem.exception.APIException;
 import dev.ardijorganxhi.librarymanagementsystem.mapper.BookMapper;
 import dev.ardijorganxhi.librarymanagementsystem.model.dto.BookDto;
+import dev.ardijorganxhi.librarymanagementsystem.model.enums.ErrorEnum;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.RegisterBookRequest;
 import dev.ardijorganxhi.librarymanagementsystem.model.response.BookResponse;
 import dev.ardijorganxhi.librarymanagementsystem.repository.BookRepository;
@@ -33,14 +35,13 @@ public class BookService {
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         Page<Book> books = bookRepository.findAll(pageable);
-        BookResponse bookResponse = bookMapper.toResponse(books);
-        return bookResponse;
+        return bookMapper.toResponse(books);
     }
     public BookDto getBookById(Long id){
-        return bookMapper.toDto(bookRepository.findById(id).orElseThrow());
+        return bookMapper.toDto(bookRepository.findById(id).orElseThrow(() -> new APIException(ErrorEnum.BOOK_NOT_REGISTERED)));
     }
     public void deleteBook(Long id){
-        Book book = bookRepository.findById(id).orElseThrow();
+        Book book = bookRepository.findById(id).orElseThrow(() -> new APIException(ErrorEnum.BOOK_NOT_REGISTERED));
         bookRepository.delete(book);
     }
 

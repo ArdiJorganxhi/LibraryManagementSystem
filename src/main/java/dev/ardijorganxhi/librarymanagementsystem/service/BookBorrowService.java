@@ -3,8 +3,10 @@ package dev.ardijorganxhi.librarymanagementsystem.service;
 import dev.ardijorganxhi.librarymanagementsystem.entity.Book;
 import dev.ardijorganxhi.librarymanagementsystem.entity.BookBorrow;
 import dev.ardijorganxhi.librarymanagementsystem.entity.User;
+import dev.ardijorganxhi.librarymanagementsystem.exception.APIException;
 import dev.ardijorganxhi.librarymanagementsystem.mapper.BookBorrowMapper;
 import dev.ardijorganxhi.librarymanagementsystem.model.dto.BookBorrowDto;
+import dev.ardijorganxhi.librarymanagementsystem.model.enums.ErrorEnum;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.BookBorrowRequest;
 import dev.ardijorganxhi.librarymanagementsystem.model.response.BookBorrowResponse;
 import dev.ardijorganxhi.librarymanagementsystem.model.response.BookResponse;
@@ -31,20 +33,19 @@ public class BookBorrowService {
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         Page<BookBorrow> bookBorrows = bookBorrowRepository.findAll(pageable);
-        BookBorrowResponse bookBorrowResponse = bookBorrowMapper.toResponse(bookBorrows);
-        return bookBorrowResponse;
+        return bookBorrowMapper.toResponse(bookBorrows);
     }
 
-    public BookBorrowDto borrowBook(Long bookId, Long userId, BookBorrowRequest request) throws Exception{
-        User user = userRepository.findById(userId).orElseThrow(() -> new Exception("User not found!"));
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new Exception("Book not found!"));
+    public BookBorrowDto borrowBook(Long bookId, Long userId, BookBorrowRequest request) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new APIException(ErrorEnum.USER_NOT_REGISTERED));
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new APIException(ErrorEnum.BOOK_NOT_REGISTERED));
         BookBorrow bookBorrow = bookBorrowMapper.borrowBook(user, book, request);
         user.getBooks().add(bookBorrow);
         bookBorrowRepository.save(bookBorrow);
         return bookBorrowMapper.toDto(bookBorrow);
 
     }
-    public void returnBook(Long bookId, Long userId){
+    public void returnBook(Long bookId, Long userId) {
         BookBorrow bookBorrow = bookBorrowRepository.findByBookIdAndUserId(bookId, userId);
         bookBorrowRepository.delete(bookBorrow);
     }

@@ -1,7 +1,9 @@
 package dev.ardijorganxhi.librarymanagementsystem.service;
 
 import dev.ardijorganxhi.librarymanagementsystem.entity.User;
+import dev.ardijorganxhi.librarymanagementsystem.exception.APIException;
 import dev.ardijorganxhi.librarymanagementsystem.mapper.UserMapper;
+import dev.ardijorganxhi.librarymanagementsystem.model.enums.ErrorEnum;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.LoginRequest;
 import dev.ardijorganxhi.librarymanagementsystem.model.request.RegisterRequest;
 import dev.ardijorganxhi.librarymanagementsystem.repository.UserRepository;
@@ -27,15 +29,14 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public String login(LoginRequest request) throws Exception {
+    public String login(LoginRequest request) {
 
         try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         } catch (BadCredentialsException e){
-            throw new Exception("BadCredentials");
+            throw new APIException(ErrorEnum.VALIDATION_ERROR);
         }
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-        String jwtToken = tokenService.generateToken(user);
-        return jwtToken;
+        return tokenService.generateToken(user);
     }
 }
