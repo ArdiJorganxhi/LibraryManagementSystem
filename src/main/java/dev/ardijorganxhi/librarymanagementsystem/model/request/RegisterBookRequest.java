@@ -17,4 +17,5 @@ public class RegisterBookRequest {
     private String author;
     @NotBlank(message = "Number of pages should be provided!")
     private int page;
+    private int stock;
 }

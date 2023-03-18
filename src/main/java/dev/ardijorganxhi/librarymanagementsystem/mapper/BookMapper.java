@@ -20,6 +20,7 @@ public class BookMapper {
                 .name(request.getName())
                 .author(request.getAuthor().toUpperCase())
                 .page(request.getPage())
+                .stock(request.getStock())
                 .build();
     }
 

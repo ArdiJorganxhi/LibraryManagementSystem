@@ -53,7 +53,7 @@ public class UserController {
         userService.deleteUser(id);
     }
     @PostMapping("/book/{bookId}")
-    public ResponseEntity<BookBorrowDto> borrowBook(@PathVariable Long bookId, @RequestBody @Valid BookBorrowRequest request) throws Exception{
+    public ResponseEntity<BookBorrowDto> borrowBook(@PathVariable Long bookId, @RequestBody BookBorrowRequest request) throws Exception{
         return ResponseEntity.ok(bookBorrowService.borrowBook(bookId, Long.valueOf(MDC.get(MdcConstant.X_USER_ID)), request));
     }
     @DeleteMapping("book/{bookId}")

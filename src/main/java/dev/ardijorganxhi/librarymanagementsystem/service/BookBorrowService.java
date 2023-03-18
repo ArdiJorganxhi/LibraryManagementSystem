@@ -41,12 +41,14 @@ public class BookBorrowService {
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new APIException(ErrorEnum.BOOK_NOT_REGISTERED));
         BookBorrow bookBorrow = bookBorrowMapper.borrowBook(user, book, request);
         user.getBooks().add(bookBorrow);
+        book.setStock(book.getStock() - 1);
         bookBorrowRepository.save(bookBorrow);
         return bookBorrowMapper.toDto(bookBorrow);
 
     }
     public void returnBook(Long bookId, Long userId) {
         BookBorrow bookBorrow = bookBorrowRepository.findByBookIdAndUserId(bookId, userId);
+        bookBorrow.getBook().setStock(bookBorrow.getBook().getStock() + 1);
         bookBorrowRepository.delete(bookBorrow);
     }
 }

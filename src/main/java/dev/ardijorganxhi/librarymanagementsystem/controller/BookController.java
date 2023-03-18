@@ -25,7 +25,7 @@ public class BookController {
     private final BookBorrowService bookBorrowService;
 
     @PostMapping
-    public ResponseEntity<Book> registerBook(@RequestBody @Valid RegisterBookRequest request){
+    public ResponseEntity<Book> registerBook(@RequestBody RegisterBookRequest request){
         return ResponseEntity.ok(bookService.registerBook(request));
     }
     @GetMapping
