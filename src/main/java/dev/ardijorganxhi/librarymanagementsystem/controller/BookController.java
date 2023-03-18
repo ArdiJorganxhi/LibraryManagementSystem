@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,7 +25,7 @@ public class BookController {
     private final BookBorrowService bookBorrowService;
 
     @PostMapping
-    public ResponseEntity<Book> registerBook(@RequestBody RegisterBookRequest request){
+    public ResponseEntity<Book> registerBook(@RequestBody @Valid RegisterBookRequest request){
         return ResponseEntity.ok(bookService.registerBook(request));
     }
     @GetMapping

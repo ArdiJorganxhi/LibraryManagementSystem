@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -30,7 +31,7 @@ public class HallController {
         return hallService.getAllHalls(pageNo, pageSize, sortBy, sortDir);
     }
     @PostMapping
-    public ResponseEntity<Hall> createHall(@RequestBody CreateHallRequest request){
+    public ResponseEntity<Hall> createHall(@RequestBody @Valid CreateHallRequest request){
         return ResponseEntity.ok(hallService.createHall(request));
     }
     @PatchMapping("/{id}/enter")

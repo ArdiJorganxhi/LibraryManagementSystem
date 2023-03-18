@@ -15,11 +15,14 @@ import dev.ardijorganxhi.librarymanagementsystem.service.BookBorrowService;
 import dev.ardijorganxhi.librarymanagementsystem.service.SubscriptionService;
 import dev.ardijorganxhi.librarymanagementsystem.service.UserService;
 import dev.ardijorganxhi.librarymanagementsystem.utils.AppConstants;
+import dev.ardijorganxhi.librarymanagementsystem.utils.MdcConstant;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,7 +35,7 @@ public class UserController {
     private final SubscriptionService subscriptionService;
 
 
-    @GetMapping
+    @GetMapping("/list")
     public UserResponse getAllUsers(
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
@@ -41,21 +44,21 @@ public class UserController {
     ) {
         return userService.findAllUsers(pageNo, pageSize, sortBy, sortDir);
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Long id){
-        return ResponseEntity.ok(userService.getUserById(id));
+    @GetMapping
+    public ResponseEntity<UserDto> getUserById(){
+        return ResponseEntity.ok(userService.getUserById(Long.valueOf(MDC.get(MdcConstant.X_USER_ID))));
     }
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
     }
-    @PostMapping("/{userId}/book/{bookId}")
-    public ResponseEntity<BookBorrowDto> borrowBook(@PathVariable Long userId, @PathVariable Long bookId, @RequestBody BookBorrowRequest request) throws Exception{
-        return ResponseEntity.ok(bookBorrowService.borrowBook(bookId, userId, request));
+    @PostMapping("/book/{bookId}")
+    public ResponseEntity<BookBorrowDto> borrowBook(@PathVariable Long bookId, @RequestBody @Valid BookBorrowRequest request) throws Exception{
+        return ResponseEntity.ok(bookBorrowService.borrowBook(bookId, Long.valueOf(MDC.get(MdcConstant.X_USER_ID)), request));
     }
-    @DeleteMapping("/{userId}/book/{bookId}")
-    public void returnBook(@PathVariable Long userId, @PathVariable Long bookId){
-        bookBorrowService.returnBook(bookId, userId);
+    @DeleteMapping("book/{bookId}")
+    public void returnBook(@PathVariable Long bookId){
+        bookBorrowService.returnBook(bookId, Long.valueOf(MDC.get(MdcConstant.X_USER_ID)));
     }
     @GetMapping("/subscriptions")
     public SubscriptionResponse getAllSubscriptions(
@@ -69,17 +72,17 @@ public class UserController {
 
 
 
-    @PostMapping("/{id}/subscribe-monthly")
-    public ResponseEntity<SubscriptionDto> registerMonthly(@PathVariable Long id, @RequestBody RegisterSubscriptionRequest request) throws Exception {
-        return ResponseEntity.ok(subscriptionService.registerMonthly(id, request));
+    @PostMapping("/subscribe-monthly")
+    public ResponseEntity<SubscriptionDto> registerMonthly( @RequestBody RegisterSubscriptionRequest request) throws Exception {
+        return ResponseEntity.ok(subscriptionService.registerMonthly(Long.valueOf(MDC.get(MdcConstant.X_USER_ID)), request));
     }
-    @PostMapping("/{id}/subscribe-yearly")
-    public ResponseEntity<SubscriptionDto> registerYearly(@PathVariable Long id, @RequestBody RegisterSubscriptionRequest request) throws Exception {
-        return ResponseEntity.ok(subscriptionService.registerYearly(id, request));
+    @PostMapping("/subscribe-yearly")
+    public ResponseEntity<SubscriptionDto> registerYearly(@RequestBody RegisterSubscriptionRequest request) throws Exception {
+        return ResponseEntity.ok(subscriptionService.registerYearly(Long.valueOf(MDC.get(MdcConstant.X_USER_ID)), request));
     }
-    @DeleteMapping("/{id}/unsubscribe")
-    public void deleteSubscription(@PathVariable Long id) throws Exception{
-        subscriptionService.deleteSubscription(id);
+    @DeleteMapping("/unsubscribe")
+    public void deleteSubscription() throws Exception{
+        subscriptionService.deleteSubscription(Long.valueOf(MDC.get(MdcConstant.X_USER_ID)));
     }
 
 

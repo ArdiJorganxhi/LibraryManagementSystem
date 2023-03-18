@@ -33,7 +33,6 @@ public class Subscription {
 
     @Column(nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @NotBlank(message = "A date must be set!")
     private LocalDate startDate;
 
     @Column(nullable = false)

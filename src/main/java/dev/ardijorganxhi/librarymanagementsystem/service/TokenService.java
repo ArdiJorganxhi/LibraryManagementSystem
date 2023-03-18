@@ -24,15 +24,16 @@ public class TokenService {
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(User userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
-    public String generateToken(Map<String, Object> extraClaims, UserDetails user) {
+    public String generateToken(Map<String, Object> extraClaims, User user) {
 
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(user.getUsername())
+                .setId(String.valueOf(user.getId()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
