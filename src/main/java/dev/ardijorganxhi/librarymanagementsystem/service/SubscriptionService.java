@@ -19,6 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 @RequiredArgsConstructor
 public class SubscriptionService {
@@ -54,6 +56,22 @@ public class SubscriptionService {
         subscription.getUser().setSubscription(null);
         subscriptionRepository.delete(subscription);
 
+    }
+    public SubscriptionDto renewSubscriptionMonthly(Long id){
+        Subscription subscription = subscriptionRepository.findByUserId(id).orElseThrow(() -> new APIException(ErrorEnum.SUBSCRIPTION_NOT_FOUND));
+        if(subscription.getEndDate().isAfter(LocalDate.now())){
+            return subscriptionMapper.renewSubscriptionMonthly(subscription);
+        } else {
+            throw new APIException(ErrorEnum.SUBSCRIPTION_IS_VALID);
+        }
+    }
+    public SubscriptionDto renewSubscriptionYearly(Long id){
+        Subscription subscription = subscriptionRepository.findByUserId(id).orElseThrow(() -> new APIException(ErrorEnum.SUBSCRIPTION_NOT_FOUND));
+        if(subscription.getEndDate().isAfter(LocalDate.now())){
+            return subscriptionMapper.renewSubscriptionYearly(subscription);
+        } else {
+            throw new APIException(ErrorEnum.SUBSCRIPTION_IS_VALID);
+        }
     }
 
 

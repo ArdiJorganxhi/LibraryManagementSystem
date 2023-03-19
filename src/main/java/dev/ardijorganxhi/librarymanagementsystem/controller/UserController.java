@@ -80,6 +80,15 @@ public class UserController {
     public ResponseEntity<SubscriptionDto> registerYearly(@RequestBody RegisterSubscriptionRequest request) throws Exception {
         return ResponseEntity.ok(subscriptionService.registerYearly(Long.valueOf(MDC.get(MdcConstant.X_USER_ID)), request));
     }
+    @PutMapping("/subscribe-monthly")
+    public ResponseEntity<SubscriptionDto> renewMonthly() {
+        return ResponseEntity.ok(subscriptionService.renewSubscriptionMonthly(Long.valueOf(MDC.get(MdcConstant.X_USER_ID))));
+    }
+
+    @PutMapping("/subscribe-yearly")
+    public ResponseEntity<SubscriptionDto> renewYearly() {
+        return ResponseEntity.ok(subscriptionService.renewSubscriptionYearly(Long.valueOf(MDC.get(MdcConstant.X_USER_ID))));
+    }
     @DeleteMapping("/unsubscribe")
     public void deleteSubscription() throws Exception{
         subscriptionService.deleteSubscription(Long.valueOf(MDC.get(MdcConstant.X_USER_ID)));

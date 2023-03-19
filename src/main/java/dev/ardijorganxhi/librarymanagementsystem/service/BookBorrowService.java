@@ -39,6 +39,12 @@ public class BookBorrowService {
     public BookBorrowDto borrowBook(Long bookId, Long userId, BookBorrowRequest request) {
         User user = userRepository.findById(userId).orElseThrow(() -> new APIException(ErrorEnum.USER_NOT_REGISTERED));
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new APIException(ErrorEnum.BOOK_NOT_REGISTERED));
+        if(book.getStock() < 0){
+            throw new APIException(ErrorEnum.BOOK_OUT_OF_STOCK);
+        }
+        if(user.getSubscription() == null && bookBorrowRepository.countByUserId(userId) > 3){
+            throw new APIException(ErrorEnum.VALIDATION_ERROR);
+        }
         BookBorrow bookBorrow = bookBorrowMapper.borrowBook(user, book, request);
         user.getBooks().add(bookBorrow);
         book.setStock(book.getStock() - 1);

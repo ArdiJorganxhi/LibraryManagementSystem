@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,5 +65,18 @@ public class SubscriptionMapper {
                 .totalElements(subscriptionPage.getTotalElements())
                 .last(subscriptionPage.isLast())
                 .build();
+    }
+    public SubscriptionDto renewSubscriptionMonthly(Subscription subscription){
+        subscription.setSubscriptionType(SubscriptionType.MONTHLY);
+        subscription.setStartDate(LocalDate.now());
+        subscription.setEndDate(LocalDate.now().plusDays(30));
+        return toDto(subscription);
+    }
+
+    public SubscriptionDto renewSubscriptionYearly(Subscription subscription){
+        subscription.setSubscriptionType(SubscriptionType.YEARLY);
+        subscription.setStartDate(LocalDate.now());
+        subscription.setEndDate(LocalDate.now().plusDays(365));
+        return toDto(subscription);
     }
 }
